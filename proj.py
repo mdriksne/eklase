@@ -9,7 +9,7 @@ atzimjuSaraksts = {
 
 while True:
 
-    izvele = input("Ievadiet 'pievienot' lai pievienotu prieksmetu un atzimi, 'izprintet' lai izprintetu prieksmetus un atzimes, 'saglabat' lai saglabtu sarakstu filā, ieladet, lai ieladetu failu, 'izdzest atzimi', lai izdzēstu atzimi, 'izdzest prieksmetu', lai izdzestu prieksmetu vai ievadiet 'partraukt' lai partrauktu programmu: ")
+    izvele = input("Ievadiet 'pievienot' lai pievienotu prieksmetu un atzimi, 'izprintet' lai izprintetu prieksmetus un atzimes, 'saglabat' lai saglabtu sarakstu filā, ieladet, lai ieladetu failu, 'izdzest atzimi', lai izdzēstu atzimi, 'izdzest prieksmetu', lai izdzestu prieksmetu, 'jauns fails', lai izvedotu jaunu sarakstu vai ievadiet 'partraukt' lai partrauktu programmu: ")
 
     if izvele == 'pievienot':
 
@@ -110,5 +110,6 @@ while True:
         break
 
     else:
-        print("Nederīga izvele! Lūdzu ievadiet pievienot vai izprintet, vai izdzest atzimi, vai izdezest prieksmetu, vai ieladet, vai saglabat, vai partraukt.")
+        print("Nederīga izvele! Lūdzu ievadiet pievienot vai izprintet, vai izdzest atzimi, vai izdezest prieksmetu, vai ieladet, vai saglabat, vai jauns fails vai partraukt.")
+        
         
