@@ -1,15 +1,26 @@
 import json
 
-atzimjuSaraksts = {
-    "Matematika" : [7, 9, 10, 8],
-    "Fizika": [10, 10, 10, 9]
-}
+while True:
 
+    sarakstaIzvele = input("jauns fails / ieladet ? : ")
 
+    if sarakstaIzvele == 'jauns fails':
+        atzimjuSaraksts = {}
+        print("Izveidots jauns fails")
+        break
+
+    elif sarakstaIzvele == 'ieladet':
+         fails = input("Ievadiet failu, kuru velaties ieladet: ")
+         with open(fails, 'r') as f:
+             atzimjuSaraksts = json.load(f)
+         print("Dati ielādēti no", fails)
+         break
+    else:
+        print("Nederīga izvēle")
 
 while True:
 
-    izvele = input("Ievadiet 'pievienot' lai pievienotu prieksmetu un atzimi, 'izprintet' lai izprintetu prieksmetus un atzimes, 'saglabat' lai saglabtu sarakstu filā, ieladet, lai ieladetu failu, 'izdzest atzimi', lai izdzēstu atzimi, 'izdzest prieksmetu', lai izdzestu prieksmetu, 'jauns fails', lai izvedotu jaunu sarakstu vai ievadiet 'partraukt' lai partrauktu programmu: ")
+    izvele = input("Ievadiet 'pievienot' lai pievienotu prieksmetu un atzimi, 'izprintet' lai izprintetu prieksmetus un atzimes, 'saglabat' lai saglabtu sarakstu filā, 'izdzest', lai izdzēstu atzimi vai failu, vai ievadiet 'partraukt' lai partrauktu programmu: ")
 
     if izvele == 'pievienot':
 
@@ -64,17 +75,6 @@ while True:
                 else:
                     print('Tāds priekšmets nav sarakstā!')
 
-    elif izvele == 'jauns fails':
-        saraksts = {}
-        atzimjuSaraksts = saraksts
-        print("Izveidots jauns fails")
-
-    elif izvele == 'ieladet':
-         fails = input("Ievadiet failu, kuru velaties ieladet: ")
-         with open(fails, 'r') as f:
-             atzimjuSaraksts = json.load(f)
-         print("Dati ielādēti no", fails)
-
     elif izvele == 'saglabat':
 
          fails = input("Ievaidiet faila nosaukumu: ")
@@ -82,34 +82,40 @@ while True:
              json.dump(atzimjuSaraksts, f)
          print("Atzimju saraksts tika saglabats ", fails)
 
+    elif izvele == 'izdzest':
 
+        izdzestIzvele = input("Izdzest priekšmetu vai atzīmi (prieksmetu / atzimi)?")
 
-    elif izvele == 'izdzest prieksmetu':
-         prieksmets = input("Ievadiet prieksmetu kuru velaties izdest: ")
-         if prieksmets in atzimjuSaraksts:
-             del atzimjuSaraksts[prieksmets]
-             print("Prieksmets izdzēsts.")
-         else:
-             print("Prieksmets nav atrasts.")
+        if izdzestIzvele == 'prieksmetu':
+            prieksmets = input("Ievadiet prieksmetu kuru velaties izdest: ")
+            if prieksmets in atzimjuSaraksts:
+                del atzimjuSaraksts[prieksmets]
+                print("Prieksmets izdzēsts.")
+            else:
+                print("Prieksmets nav atrasts.")
 
-    elif izvele == 'izdzest atzimi':
-         prieksmets = input("Ievadiet prieksmeta vārdu: ")
-         if prieksmets in atzimjuSaraksts:
-             atzimes = atzimjuSaraksts[prieksmets]
-             atzime = input("Ievadiet atzimi kuru velaties izdzest: ")
-             if atzime in atzimes:
-                 atzimes.remove(atzime)
-                 print("Atzime izdzēsta.")
-             else:
-                 print("Atzīme nav atrasta.")
-         else:
-             print("Prieksmets nav atrasts.")
+        elif izdzestIzvele == 'atzimi':
+            prieksmets = input("Ievadiet prieksmeta vārdu: ")
+            if prieksmets in atzimjuSaraksts:
+                atzimes = atzimjuSaraksts[prieksmets]
+                atzime = input("Ievadiet atzimi kuru velaties izdzest: ")
+                if atzime in atzimes:
+                    atzimes.remove(atzime)
+                    print("Atzīme izdzēsta.")
+                elif int(atzime) in atzimes:
+                    atzimes.remove(int(atzime))
+                    print("Atzime izdzēsta.")
+                else:
+                    print("Atzīme nav atrasta.")
+            else:
+                print("Prieksmets nav atrasts.")
+
+        else: 
+            print("Nederīga izvēle")
 
 
     elif izvele == 'partraukt':
         break
 
     else:
-        print("Nederīga izvele! Lūdzu ievadiet pievienot vai izprintet, vai izdzest atzimi, vai izdezest prieksmetu, vai ieladet, vai saglabat, vai jauns fails vai partraukt.")
-        
-        
+        print("Nederīga izvele! Lūdzu ievadiet pievienot vai izprintet, vai izdzest, vai saglabat, vai vai partraukt.")
