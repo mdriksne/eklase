@@ -1,0 +1,104 @@
+class Store:
+    def __init__(self):
+        self.cashiers = []
+        self.other_workers = []
+        self.drinks = {}
+        self.food = {}
+
+    def add_cashier(self, name, salary):
+        self.cashiers.append(Cashier(name, salary))
+
+    def add_other_worker(self, name, salary):
+        self.other_workers.append(OtherWorker(name, salary))
+
+    def add_drink(self, name, price):
+        self.drinks[name] = price
+
+    def add_food(self, name, price):
+        self.food[name] = price
+
+    def total_cashier_salary(self):
+        return sum(cashier.salary for cashier in self.cashiers)
+
+    def total_other_worker_salary(self):
+        return sum(worker.salary for worker in self.other_workers)
+
+    def total_salary(self):
+        return self.total_cashier_salary() + self.total_other_worker_salary()
+
+    def total_drinks_sales(self):
+        return sum(price for price in self.drinks.values())
+
+    def total_food_sales(self):
+        return sum(price for price in self.food.values())
+
+    def total_sales(self):
+        return self.total_drinks_sales() + self.total_food_sales()
+
+
+class Cashier:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+
+class OtherWorker:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+
+class Drink:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+
+class Food:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+
+class Cart:
+    def __init__(self, store):
+        self.store = store
+        self.items = []
+
+    def add_drink(self, name):
+        if name in self.store.drinks:
+            self.items.append(Drink(name, self.store.drinks[name]))
+        else:
+            print(f"{name} is not a valid drink.")
+
+    def add_food(self, name):
+        if name in self.store.food:
+            self.items.append(Food(name, self.store.food[name]))
+        else:
+            print(f"{name} is not a valid food item.")
+
+    def remove_item(self, item):
+        if item in self.items:
+            self.items.remove(item)
+        else:
+            print("Item not found in cart.")
+
+    def total_price(self):
+        return sum(item.price for item in self.items)
+
+
+# Example usage
+store = Store()
+
+store.add_drink("Coca Cola", 2.5)
+store.add_drink("Sprite", 2.0)
+store.add_food("Hamburger", 5.0)
+store.add_food("French Fries", 3.0)
+
+cart = Cart(store)
+cart.add_drink("Coca Cola")
+cart.add_food("Hamburger")
+cart.add_food("Salad")
+cart.remove_item(Food("Hamburger", 5.0))
+
+print("Total price:", cart.total_price())
