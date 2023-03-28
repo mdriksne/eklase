@@ -1,104 +1,133 @@
+import random
+
 class Store:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.cashiers = []
         self.other_workers = []
-        self.drinks = {}
-        self.food = {}
+        self.food_products = []
+        self.drink_products = []
+        self.other_products = []
 
-    def add_cashier(self, name, salary):
-        self.cashiers.append(Cashier(name, salary))
+    def add_cashier(self, cashier):
+        self.cashiers.append(cashier)
 
-    def add_other_worker(self, name, salary):
-        self.other_workers.append(OtherWorker(name, salary))
+    def add_other_worker(self, other_worker):
+        self.other_workers.append(other_worker)
 
-    def add_drink(self, name, price):
-        self.drinks[name] = price
+    def add_food_product(self, food_product):
+        self.food_products.append(food_product)
 
-    def add_food(self, name, price):
-        self.food[name] = price
+    def add_drink_product(self, drink_product):
+        self.drink_products.append(drink_product)
+        
+    def add_other_product(self, other_product):
+        self.other_products.append(other_product)
 
-    def total_cashier_salary(self):
-        return sum(cashier.salary for cashier in self.cashiers)
+    def get_cashiers(self):
+        return self.cashiers
 
-    def total_other_worker_salary(self):
-        return sum(worker.salary for worker in self.other_workers)
+    def get_other_workers(self):
+        return self.other_workers
 
-    def total_salary(self):
-        return self.total_cashier_salary() + self.total_other_worker_salary()
+    def get_food_products(self):
+        return self.food_products
 
-    def total_drinks_sales(self):
-        return sum(price for price in self.drinks.values())
-
-    def total_food_sales(self):
-        return sum(price for price in self.food.values())
-
-    def total_sales(self):
-        return self.total_drinks_sales() + self.total_food_sales()
-
-
-class Cashier:
-    def __init__(self, name, salary):
+    def get_drink_products(self):
+        return self.drink_products
+    
+    def get_other_products(self):
+        return self.other_products
+    
+class Worker:
+    def __init__(self, name, id, salary):
         self.name = name
+        self.id = id
         self.salary = salary
 
+    def get_name(self):
+        return self.name
 
-class OtherWorker:
-    def __init__(self, name, salary):
-        self.name = name
-        self.salary = salary
+    def get_id(self):
+        return self.id
+    
+    def get_salary(self):
+        return self.salary
+    
+class Cashier(Worker):
+    def __init__(self, name, id, salary):
+        super().__init__(name, id, salary)
 
+    def checkout(self, cart):
+        total_price = cart.calculate_total_price()
+        print(f"Total price: {total_price}")
+        return total_price
 
-class Drink:
+class OtherWorker(Worker):
+    def __init__(self, name, id, salary):
+        super().__init__(name, id, salary)
+
+    def restock(self, product):
+        print(f"{self.name} is restocking {product.get_name()}.")
+
+class Product:
     def __init__(self, name, price):
         self.name = name
         self.price = price
 
+    def get_name(self):
+        return self.name
 
-class Food:
+    def get_price(self):
+        return self.price
+    
+class Food(Product):
     def __init__(self, name, price):
+        super().__init__(name, price)
+
+class Drink(Product):
+    def __init__(self, name, price):
+        super().__init__(name, price)
+        
+class OtherProduct(Product):
+    def __init__(self, name, price):
+        super().__init__(name, price)
+
+class Buyer:
+    def __init__(self, name, money):
         self.name = name
-        self.price = price
-
-
-class Cart:
-    def __init__(self, store):
-        self.store = store
-        self.items = []
-
-    def add_drink(self, name):
-        if name in self.store.drinks:
-            self.items.append(Drink(name, self.store.drinks[name]))
+        self.money = money
+        
+    def get_name(self):
+        return self.name
+    
+    def get_money(self):
+        return self.money
+    
+class ShoppingCart:
+    def __init__(self, buyer):
+        self.buyer = buyer
+        self.products = []
+        
+    def add_product(self, product):
+        self.products.append(product)
+        
+    def remove_product(self, product):
+        if product in self.products:
+            self.products.remove(product)
         else:
-            print(f"{name} is not a valid drink.")
+            print("Product not in cart.")
+        
+    def calculate_total_price(self):
+        total_price = 0
+        for product in self.products:
+            total_price += product.get_price()
+        return total_price
 
-    def add_food(self, name):
-        if name in self.store.food:
-            self.items.append(Food(name, self.store.food[name]))
-        else:
-            print(f"{name} is not a valid food item.")
+store = Store("Supermarket")
 
-    def remove_item(self, item):
-        if item in self.items:
-            self.items.remove(item)
-        else:
-            print("Item not found in cart.")
+cashier1 = Cashier("Alice", 1, 2000)
+cashier2 = Cashier("Bob", 2, 2500)
 
-    def total_price(self):
-        return sum(item.price for item in self.items)
-
-
-# Example usage
-store = Store()
-
-store.add_drink("Coca Cola", 2.5)
-store.add_drink("Sprite", 2.0)
-store.add_food("Hamburger", 5.0)
-store.add_food("French Fries", 3.0)
-
-cart = Cart(store)
-cart.add_drink("Coca Cola")
-cart.add_food("Hamburger")
-cart.add_food("Salad")
-cart.remove_item(Food("Hamburger", 5.0))
-
-print("Total price:", cart.total_price())
+other_worker1 = OtherWorker("Charlie", 3, 1800)
+other_worker2 = OtherWorker("David", 4, 2200
